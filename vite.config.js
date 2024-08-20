@@ -8,4 +8,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    define: {
+        'process.env': {
+            API_URL: JSON.stringify(process.env.API_URL),
+        },
+    },
 });
