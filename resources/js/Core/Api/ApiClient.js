@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 const getApiBaseUrl = () => {
-    const BASE_URL='http://localhost/semillero-store/public/';
-    return BASE_URL;
+    return process.env.API_URL || 'http://localhost/semillero-store/public/';
 };
 
 const apiClient = axios.create({
@@ -16,12 +15,16 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
     response => response,
     error => {
-        console.error('API Error: ', error);
+        if (error.response) {
+            console.error(`API Error (${error.response.status}): `, error.response.data.message);
+        } else if (error.request) {
+            console.error('Network Error: ', error.message);
+        } else {
+            console.error('Error: ', error.message);
+        }
         return Promise.reject(error);
     }
 );
 
 export const BASE_URL = getApiBaseUrl();
 export default apiClient;
-
-
