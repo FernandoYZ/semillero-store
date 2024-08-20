@@ -2,6 +2,7 @@ import $ from 'jquery';
 import { getAllProducts } from '../../../Core/Services/productService';
 import { initializeAddEditModal } from '../Modals/addEditModal';
 import 'datatables.net';
+import language from '../../../Core/Plugins/Spanish.json';
 
 export async function initializeProductTable() {
     $(document).ready(async function () {
@@ -15,7 +16,7 @@ export async function initializeProductTable() {
                     { data: 'id' },
                     { data: 'name' },
                     { data: 'price' },
-                    { data: 'category.name' }, // Mostrar el nombre de la categoría
+                    { data: 'category.name' },
                     {
                         data: null,
                         render: function (data) {
@@ -26,6 +27,7 @@ export async function initializeProductTable() {
                         }
                     }
                 ],
+                language: language,
             });
 
             initializeAddEditModal();
