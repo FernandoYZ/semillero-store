@@ -1,31 +1,29 @@
 import apiClient, { BASE_URL } from '../Api/ApiClient';
 
-const getApi= () => {
-    return BASE_URL + 'api/product';
-}
-
-const CRUD_PRODUCT = BASE_URL+'/products';
+const endpoints = {
+    getAll: `${BASE_URL}api/products`,
+    create: `${BASE_URL}api/products`,
+    update: (productId) => `${BASE_URL}api/products/${productId}`,
+    delete: (productId) => `${BASE_URL}api/products/${productId}`,
+    show: (productId) => `${BASE_URL}api/products/${productId}`,
+};
 
 export function getAllProducts() {
-    return apiClient.get(getApi());
+    return apiClient.get(endpoints.getAll);
 }
 
 export function createProduct(productData) {
-    return apiClient.post(CRUD_PRODUCT, productData);
+    return apiClient.post(endpoints.create, productData);
 }
 
-export function readProduct(productData) {
-    // ¿Existe una función para Read?
+export function readProduct(productId) {
+    return apiClient.get(endpoints.show(productId));
 }
 
 export function updateProduct(productId, productData) {
-    return apiClient.put(`${CRUD_PRODUCT}/${productId}`, productData);
+    return apiClient.put(endpoints.update(productId), productData);
 }
 
 export function deleteProduct(productId) {
-    return apiClient.delete(`${CRUD_PRODUCT}/${productId}`);
+    return apiClient.delete(endpoints.delete(productId));
 }
-
-export const API_PRODUCT = getApi();
-
-
