@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
@@ -13,16 +15,19 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::get();
-        if($products) {
+        // $products = Product::get();
+        // if($products) {
 
-        } else {
-            return response()->json(
-                [
-                    'message' => 'No record available'
-                ], 200
-            );
-        }
+        // } else {
+        //     return response()->json(
+        //         [
+        //             'message' => 'No record available'
+        //         ], 200
+        //     );
+        // }
+
+        $products = Product::with('category')->get();
+        return ProductResource::collection($products);
     }
 
     /**
@@ -38,15 +43,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = Product::create($request->validated());
+        return new ProductResource($product);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
+        return new ProductResource($product);
     }
 
     /**
@@ -60,16 +66,18 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $product->update($request->validated());
+        return new ProductResource($product);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
