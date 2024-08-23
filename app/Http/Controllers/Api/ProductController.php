@@ -26,7 +26,7 @@ class ProductController extends Controller
         //     );
         // }
 
-        $products = Product::with('category')->get();
+        $products = Product::with('category', 'trademark')->get();
         return ProductResource::collection($products);
     }
 
