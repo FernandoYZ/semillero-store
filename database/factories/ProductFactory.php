@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Trademark;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -22,6 +23,8 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
+            'category_id' => $this->getRandomCategoryId(),
+            'trademark_id' => $this->getRandomTrademark(),
             'name' =>fake()->word(),
             'description' => fake()->sentence(),
             'price' => fake()->randomFloat(2, 1, 100),
@@ -30,13 +33,17 @@ class ProductFactory extends Factory
             'image' => fake()->imageUrl(),
             'ubication' => fake()->word(),
             'status' => fake()->boolean(),
-            'category_id' => $this->getRandomCategoryId(),
         ];
     }
 
     private function getRandomCategoryId()
     {
         $maxId = Category::max('id');
+        return rand(1, $maxId);
+    }
+
+    private function getRandomTrademark() {
+        $maxId = Trademark::max('id');
         return rand(1, $maxId);
     }
 }
