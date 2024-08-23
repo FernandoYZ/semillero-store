@@ -25,6 +25,7 @@ class ProductResource extends JsonResource
             'ubication' => $this->ubication,
             'status' => $this->status,
             'category' => new CategoryResource($this->whenLoaded('category')),
+            'trademark' => new TrademarkResource($this->whenLoaded('trademark')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
