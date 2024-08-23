@@ -22,6 +22,8 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'category_id' => 'required|exists:categories,id',
+            'trademark_id' => 'required|exists:trademarks,id',
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
@@ -30,7 +32,6 @@ class ProductRequest extends FormRequest
             'image' => 'nullable|string|max:255',
             'ubication' => 'nullable|string|max:255',
             'status' => 'boolean',
-            'category_id' => 'required|exists:categories,id',
         ];
     }
 }
